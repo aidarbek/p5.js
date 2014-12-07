@@ -1,0 +1,66 @@
+<html>
+  <script src="p5.min.js"></script>
+  <script>
+    var startX = [0];
+    var startY = [0];
+    var finishX = [0];
+    var finishY = [0];
+    var curX = [0];
+    var curY = [0];
+    var prevX = [0];
+    var prevY = [0];
+    var n = 0;
+    var A = 2;//Thickness of Line
+    var S = 2;//Speed of Line
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      background(255);
+      startX[n] = 0;
+      startY[n] = 0;
+      finishX[n] = 0;
+      finishY[n] = 0;
+    }
+    function draw() {
+      if(mouseIsPressed)
+      {
+        finishX[n] = mouseX;
+        finishY[n] = mouseY;
+      }
+      for(var i = 0; i <= n; i++)
+        {
+            prevX[i] = curX[i];
+            prevY[i] = curY[i];
+            if(curX[i] < finishX[i])
+            {
+              curX[i]+=S;
+              ellipse(curX[i],curY[i], A, A);
+            }
+            else if(curX[i] > finishX[i])
+            {
+              curX[i]-=S;
+              ellipse(curX[i],curY[i], A, A);
+            }
+            if(curY[i] < finishY[i])
+            {
+              curY[i]+=S;
+              ellipse(curX[i], curY[i], A, A);
+            }
+            else if(curY[i] > finishY[i])
+            {
+              curY[i]-=S;
+              ellipse(curX[i],curY[i], A, A);
+            }
+            if(curX[i] == finishX[i] && curY[i] == finishY[i])
+            {
+              ellipse(curX[i],curY[i], A, A);
+            }
+        }
+
+    }
+  </script>
+  <body>
+      <h1>
+          Press anywhere
+      </h1>
+  </body>
+</html>
