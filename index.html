@@ -1,66 +1,88 @@
-<html>
-  <script src="p5.min.js"></script>
+
+<!-- saved from url=(0022)http://idarbek.com/p5/ -->
+<html><head>
+<title>
+    Danel LOH!
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251"><script src="p5.min.js"></script>
   <script>
-    var startX = [0];
-    var startY = [0];
-    var finishX = [0];
-    var finishY = [0];
+    var circle = 1;
+    var rectangle = 0;
     var curX = [0];
     var curY = [0];
-    var prevX = [0];
-    var prevY = [0];
+    var offset = [0];
     var n = 0;
-    var A = 2;//Thickness of Line
-    var S = 2;//Speed of Line
+    var A = 50;//Width of circle
+    var SPEED = 1;//Speed of Line
     function setup() {
       createCanvas(windowWidth, windowHeight);
       background(255);
-      startX[n] = 0;
-      startY[n] = 0;
-      finishX[n] = 0;
-      finishY[n] = 0;
     }
     function draw() {
+      clear();
       if(mouseIsPressed)
       {
-        finishX[n] = mouseX;
-        finishY[n] = mouseY;
+        curX[n] = mouseX;
+        curY[n] = mouseY;
+        offset[n] = 0;
+        n++;
       }
-      for(var i = 0; i <= n; i++)
-        {
-            prevX[i] = curX[i];
-            prevY[i] = curY[i];
-            if(curX[i] < finishX[i])
-            {
-              curX[i]+=S;
-              ellipse(curX[i],curY[i], A, A);
-            }
-            else if(curX[i] > finishX[i])
-            {
-              curX[i]-=S;
-              ellipse(curX[i],curY[i], A, A);
-            }
-            if(curY[i] < finishY[i])
-            {
-              curY[i]+=S;
-              ellipse(curX[i], curY[i], A, A);
-            }
-            else if(curY[i] > finishY[i])
-            {
-              curY[i]-=S;
-              ellipse(curX[i],curY[i], A, A);
-            }
-            if(curX[i] == finishX[i] && curY[i] == finishY[i])
-            {
-              ellipse(curX[i],curY[i], A, A);
-            }
-        }
-
+      for(var i = 0; i < n; i++)
+      {
+        if(circle)
+          ellipse(curX[i], curY[i], 1 + offset[i], 1 + offset[i]);
+        else
+          rect(curX[i] - (1 + offset[i]) / 2, curY[i] - (1 + offset[i]) / 2, 1 + offset[i], 1 + offset[i]);
+        offset[i] += SPEED;
+        if(offset[i] > A - 1)
+          offset[i] = 0;
+      }
+    }
+    function switch_rect()
+    {
+      rectangle = 1;
+      circle = 0;
+    }
+    function switch_circle()
+    {
+      rectangle = 0;
+      circle = 1;
+    }
+    function save1()
+    {
+      var speed = int(document.getElementById('speed').value);
+      if(!speed)
+        speed = 1;
+     var radius = int(document.getElementById('radius').value);
+      if(!radius)
+        radius = 1;
+      console.log(speed);
+      console.log(radius);
+      if(document.getElementById('speed').value.length)
+        SPEED = speed;
+      if(document.getElementById('radius').value.length)
+        A = radius;  
+    }
+    function clear_all()
+    {
+      n = 0;
     }
   </script>
+  </head>
   <body>
-      <h1>
-          Press anywhere
-      </h1>
+    <button onclick="clear_all()">
+        Clear
+    </button>
+    <button onclick="switch_rect()">
+        Rectangle
+    </button>
+    <button onclick="switch_circle()">
+        Circle
+    </button>
+    <input type="text" id="speed" placeholder="Speed">
+    <input type="text" id="radius" placeholder="Radius or width">
+    <button onclick="save1()">
+        Save
+    </button>
   </body>
 </html>
