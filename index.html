@@ -14,6 +14,10 @@
     var n = 0;
     var A = 50;//Width of circle
     var SPEED = 1;//Speed of Line
+    var maxR = 200;
+    var minR = 10;
+    var maxS = 10;
+    var minS = 1;
     function setup() {
       createCanvas(windowWidth, windowHeight);
       background(255);
@@ -22,10 +26,13 @@
       clear();
       if(mouseIsPressed)
       {
-        curX[n] = mouseX;
-        curY[n] = mouseY;
-        offset[n] = 0;
-        n++;
+        if(pmouseX >= 0 && pmouseY >= 0)
+        {
+          curX[n] = pmouseX;
+          curY[n] = pmouseY;
+          offset[n] = 0;
+          n++;
+        }
       }
       for(var i = 0; i < n; i++)
       {
@@ -48,20 +55,51 @@
       rectangle = 0;
       circle = 1;
     }
-    function save1()
+    function setSpeed()
     {
       var speed = int(document.getElementById('speed').value);
       if(!speed)
         speed = 1;
-     var radius = int(document.getElementById('radius').value);
+     if(document.getElementById('speed').value.length)
+        SPEED = speed;
+      document.getElementById('speedText').value = SPEED;
+    }
+    function setSpeedText()
+    {
+      var speed = int(document.getElementById('speedText').value);
+      if(!speed)
+        speed = 1;
+     if(document.getElementById('speedText').value.length)
+        SPEED = speed;
+      if(SPEED > maxS)
+        SPEED = maxS;
+      if(SPEED < minS)
+        SPEED = minS;
+      document.getElementById('speedText').value = SPEED;
+      document.getElementById('speed').value = SPEED;
+    }
+    function setRadius()
+    {
+      var radius = int(document.getElementById('radius').value);
       if(!radius)
         radius = 1;
-      console.log(speed);
-      console.log(radius);
-      if(document.getElementById('speed').value.length)
-        SPEED = speed;
       if(document.getElementById('radius').value.length)
         A = radius;  
+      document.getElementById('radiusText').value = A;
+    }
+    function setRadiusText()
+    {
+      var radius = int(document.getElementById('radiusText').value);
+      if(!radius)
+        radius = 1;
+      if(document.getElementById('radiusText').value.length)
+        A = radius;  
+      if(A > maxR)
+        A = maxR;
+      if(A < minR)
+        A = minR;
+      document.getElementById('radiusText').value = A;
+      document.getElementById('radius').value = A;
     }
     function clear_all()
     {
@@ -79,10 +117,12 @@
     <button onclick="switch_circle()">
         Circle
     </button>
-    <input type="text" id="speed" placeholder="Speed">
-    <input type="text" id="radius" placeholder="Radius or width">
-    <button onclick="save1()">
-        Save
-    </button>
+
+    Speed<input id="speed" type ="range" min ="1" max="10" value="1" step ="1" onchange="setSpeed()" />
+    <input style="width: 30px;" type="text" id="speedText" value="1" onchange="setSpeedText()">
+    Radius<input id="radius" type ="range" min ="10" max="200" value="50" step ="10" onchange="setRadius()" />
+    <input style="width: 30px;" type="text" id="radiusText" value="50" onchange="setRadiusText()">
+    
+    
   </body>
 </html>
